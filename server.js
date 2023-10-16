@@ -1,6 +1,8 @@
 const express = require("express");
 
 const analyticsRoutes = require("./routes/analyticsRoutes");
+const errorHandlingMiddleware = require("./middlewares/errorHandlingMiddleware");
+const randomRequestMiddleware = require("./middlewares/randomRequestMiddleware");
 
 const server = express();
 
@@ -12,6 +14,9 @@ server.use("/", (req, res, next) => {
 });
 
 server.use("/api", analyticsRoutes);
+
+server.use(randomRequestMiddleware);
+server.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 5000;
 
