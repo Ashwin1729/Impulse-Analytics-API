@@ -29,7 +29,7 @@ const getBlogStats = async (req, res) => {
       uniqueBlogTitles: uniqueBlogTitles.map((blog) => blog.title),
     };
 
-    res.json(queryResult);
+    res.status(200).json(queryResult);
   } catch (error) {
     console.log(error);
     res
@@ -38,6 +38,44 @@ const getBlogStats = async (req, res) => {
   }
 };
 
-const searchBlogs = async (req, res) => {};
+const searchBlogs = async (req, res) => {
+  try {
+    const { data: blogData } = await axios.get(
+      "https://intent-kit-16.hasura.app/api/rest/blogs",
+      {
+        headers: {
+          "x-hasura-admin-secret":
+            "32qR4KmXOIpsGPQKMqEJHGJS27G5s7HdSKO3gdtQd2kv5e852SiYwWNfxkZOBuQ6",
+        },
+      }
+    );
+
+    const blogs = blogData.blogs;
+
+    const search_field = req.query.search;
+
+    if (!search_field) {
+      return res.status(400).json({ error: "Please provide a search field." });
+    }
+
+    const searchResult = blogs.filter(
+      (blog) =>
+        blog.id.toLowerCase().includes(search_field.toString().toLowerCase()) ||
+        blog.title
+          .toLowerCase()
+          .includes(search_field.toString().toLowerCase()) ||
+        blog.image_url
+          .toLowerCase()
+          .includes(search_field.toString().toLowerCase())
+    );
+
+    res.status(200).json(searchResult);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while searching the blog data." });
+  }
+};
 
 module.exports = { getBlogStats, searchBlogs };
