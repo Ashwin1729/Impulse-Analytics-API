@@ -1,12 +1,17 @@
 const express = require("express");
 
+const analyticsRoutes = require("./routes/analyticsRoutes");
+
 const server = express();
 
 server.use(express.json());
 
-server.get("/", (req, res) => {
-  res.send("API is running successfuly");
+server.use("/", (req, res, next) => {
+  console.log("API is running successfuly");
+  next();
 });
+
+server.use("/api", analyticsRoutes);
 
 const PORT = process.env.PORT || 5000;
 
