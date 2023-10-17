@@ -6,7 +6,7 @@ const cache = {
   searchResults: null,
 };
 
-const cacheExpiry = 10 * 1000;
+const cacheExpiry = 60 * 60 * 1000;
 
 // blogs data fetching function which stores blog analytics in cache;
 
