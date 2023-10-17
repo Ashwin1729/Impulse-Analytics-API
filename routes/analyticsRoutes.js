@@ -7,6 +7,8 @@ const {
 
 const router = express.Router();
 
+// REST API routes for blog analytics and search
+
 router.get("/blog-stats", getBlogStats);
 router.get("/blog-search", searchBlogs);
 
