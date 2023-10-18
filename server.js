@@ -14,6 +14,12 @@ server.use(express.json());
 
 server.use("/api", analyticsRoutes);
 
+server.use("/", (req, res) => {
+  res.send(
+    "API is running successfully. Please refer to the API Documentation to know all the request endpoints!"
+  );
+});
+
 server.use(randomRequestMiddleware);
 server.use(errorHandlingMiddleware);
 
